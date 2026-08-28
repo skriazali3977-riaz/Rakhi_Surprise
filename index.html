@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rakhi Surprise</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fff1f5, #ffe0ea);
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #e75480;
+            font-size: 32px;
+        }
+
+        p {
+            color: #777;
+            font-size: 18px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #e75480;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+
+        .gift.shake {
+            animation: giftShake 0.6s ease;
+        }
+
+        @keyframes giftShake {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            20% {
+                transform: rotate(-8deg) scale(1.05);
+            }
+
+            40% {
+                transform: rotate(8deg) scale(1.08);
+            }
+
+            60% {
+                transform: rotate(-6deg) scale(1.05);
+            }
+
+            80% {
+                transform: rotate(5deg) scale(1.02);
+            }
+
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+
+        /* Rakhi animation */
+
+        #surprise {
+            position: relative;
+        }
+
+        #hand {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s;
+        }
+
+        #hand:hover {
+            transform: scale(1.03);
+        }
+
+        #rakhi {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 250px;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd700 0%, #e75480 45%, #9b2c6b 100%);
+            border: 5px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        #rakhi::before,
+        #rakhi::after {
+            content: "";
+            position: absolute;
+            background: #e75480;
+        }
+
+        #rakhi::before {
+            width: 100px;
+            height: 8px;
+            top: 31px;
+            left: -15px;
+            border-radius: 10px;
+        }
+
+        #rakhi::after {
+            width: 16px;
+            height: 16px;
+            border: 3px solid #ffd700;
+            background: transparent;
+            border-radius: 50%;
+            top: 24px;
+            left: 24px;
+        }
+
+        #rakhi.worn {
+            animation: wearRakhi 1.2s ease-in-out forwards;
+        }
+
+        @keyframes wearRakhi {
+            0% {
+                transform: translate(-50%, 0) scale(1);
+            }
+
+            60% {
+                transform: translate(-50%, -70px) scale(0.85);
+            }
+
+            100% {
+                transform: translate(-63%, -110px) scale(0.65);
+            }
+        }
+
+        #complete {
+            display: none;
+            margin-top: 25px;
+            animation: fadeIn 1s ease;
+        }
+
+        #complete h2 {
+            color: #e75480;
+            margin-bottom: 10px;
+        }
+
+        .gift {
+            font-size: 80px;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .gift:hover {
+            transform: scale(1.1);
+        }
+
+        #giftMessage {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating-heart {
+            position: fixed;
+            bottom: 100px;
+            font-size: 24px;
+            pointer-events: none;
+            animation: floatHeart 2s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-250px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        #messageText {
+            min-height: 50px;
+            line-height: 1.6;
+        }
+
+        .memory-photo {
+            width: 280px;
+            max-width: 80%;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<script>
+    let herName = prompt("What's your name? 💗");
+
+    if (!herName || herName.trim() === "") {
+        herName = "Friend";
+    }
+
+    herName = herName.trim();
+
+    const photos = {
+        "abida": "abida.png",
+        "swastika": "swastika.png",
+        "alisha": "alisha.png",
+        "shirin": "shirin.png",
+        "shirine": "shirin.png",
+        "abida shirin": "abida shirin.png",
+        "riya": "riya.png",
+    };
+
+    const photoName = herName.toLowerCase();
+
+    const selectedPhoto = photos[photoName] || "universal.png";
+</script>
+
+<body>
+    <audio id="bgMusic" src="music.mp3"></audio>
+
+    <div class="box">
+
+        <h1>Something Special For <span id="name"></span> ❤️</h1>
+
+        <p>A little Rakhi surprise is waiting...</p>
+
+        <button onclick="startSurprise()">Tap to Begin ✨</button>
+
+        <div id="surprise" style="display: none;">
+            <h2>Hey <span id="herName"></span> 🫶</h2>
+            <div id="hand" onclick="showRakhi()" style="font-size: 120px; margin: 20px; cursor: pointer;">
+                🖐️
+            </div>
+
+            <p id="tapHand">Tap the hand ✨</p>
+
+            <div id="rakhi" onclick="wearRakhi()"></div>
+
+            <div id="complete">
+
+                <h2>Rakhi tied successfully! ❤️</h2>
+
+                <p>Happy Raksha Bandhan, <span id="giftName"></span>! 🪢</p>
+
+                <div class="gift" onclick="openGift()">
+                    🎁
+                </div>
+
+                <p id="tapGift">Tap the gift ✨</p>
+
+                <div id="giftMessage">
+
+                    <strong>A little something for you 💌</strong>
+
+                    <br><br>
+
+                    <img id="memoryPhoto" src="" alt="A special photo" class="memory-photo">
+
+                    <br><br>
+
+                    <p id="messageText"></p>
+
+                </div>
+
+            </div>
+
+            <p id="waitingText">Your Rakhi is waiting... 🔗</p>
+        </div>
+
+    </div>
+
+    <script>
+        let typing;
+
+        const music = document.getElementById("bgMusic");
+
+        let playCount = 0;
+
+        music.addEventListener("ended", function () {
+            playCount++;
+
+            if (playCount < 2) {
+                music.currentTime = 0;
+                music.play();
+            }
+        });
+
+        function startSurprise() {
+            document.getElementById("bgMusic").play();
+
+            document.querySelector(".box > h1").style.display = "none";
+            document.querySelector(".box > p").style.display = "none";
+            document.querySelector("button").style.display = "none";
+
+            document.getElementById("surprise").style.display = "block";
+            document.getElementById("herName").textContent = herName;
+            document.getElementById("memoryPhoto").src = selectedPhoto;
+        }
+        function showRakhi() {
+            document.getElementById("tapHand").style.display = "none";
+            document.getElementById("rakhi").style.display = "block";
+            document.getElementById("waitingText").textContent = "Tap the Rakhi ✨";
+        }
+
+        function wearRakhi() {
+            const rakhi = document.getElementById("rakhi");
+
+            rakhi.classList.add("worn");
+
+            setTimeout(function () {
+                document.getElementById("waitingText").style.display = "none";
+                document.getElementById("complete").style.display = "block";
+                document.getElementById("giftName").textContent = herName;
+            }, 1200);
+        }
+        function openGift() {
+            createConfetti();
+            const gift = document.querySelector(".gift");
+
+            gift.classList.add("shake");
+
+            document.getElementById("tapGift").style.display = "none";
+
+            setTimeout(function () {
+                document.getElementById("giftMessage").style.display = "block";
+                createHearts();
+                typeMessage();
+            }, 600);
+        }
+        function createHearts() {
+            const hearts = ["❤️", "💖", "💕", "💗", "💓"];
+
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement("div");
+
+                heart.className = "floating-heart";
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+
+                heart.style.left = (40 + Math.random() * 20) + "%";
+                heart.style.animationDelay = (Math.random() * 0.5) + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(function () {
+                    heart.remove();
+                }, 2500);
+            }
+        }
+        function typeMessage() {
+
+            clearInterval(typing);
+
+            const text = `Happy Raksha Bandhan, ${herName}! 🤗 No matter how far we are, our bond will always stay special. Take care and keep smiling! 🫶`;
+            const message = document.getElementById("messageText");
+
+            message.textContent = "";
+
+            let i = 0;
+
+            typing = setInterval(function () {
+
+                message.textContent += text[i];
+                i++;
+
+                if (i >= text.length) {
+                    clearInterval(typing);
+                }
+
+            }, 50);
+        }
+        function createConfetti() {
+            const emojis = ["❤️", "💕", "✨", "🎉", "💖"];
+
+            for (let i = 0; i < 35; i++) {
+                const heart = document.createElement("div");
+
+                heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+                heart.style.position = "fixed";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.top = "-30px";
+                heart.style.fontSize = (15 + Math.random() * 20) + "px";
+                heart.style.zIndex = "9999";
+                heart.style.pointerEvents = "none";
+
+                heart.style.animation = "fall 3s linear forwards";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+        }
+        document.getElementById("name").textContent = herName;
+
+    </script>
+
+</body>
+
+</html>
