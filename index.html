@@ -173,6 +173,24 @@
             transform: translateX(-50%);
         }
 
+        #rakhi.worn {
+            animation: wearRakhi 1.2s ease-in-out forwards;
+        }
+
+        @keyframes wearRakhi {
+            0% {
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-25px) scale(1.05);
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-45px) scale(0.95);
+            }
+        }
+
         #complete {
             display: none;
             margin-top: 25px;
@@ -389,7 +407,7 @@
                 document.getElementById("waitingText").style.display = "none";
                 document.getElementById("complete").style.display = "block";
                 document.getElementById("giftName").textContent = herName;
-            }, 400);
+            }, 1200);
         }
 
         function openGift() {
